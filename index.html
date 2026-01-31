@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You, My Love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --burgundy: #8B1538;
+            --deep-rose: #C84B63;
+            --blush: #ECBCB3;
+            --cream: #FFF8F3;
+            --champagne: #F4E8D8;
+            --gold: #D4AF37;
+            --shadow-warm: rgba(139, 21, 56, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--champagne) 50%, var(--blush) 100%);
+            background-attachment: fixed;
+            color: var(--burgundy);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .background-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: var(--deep-rose);
+            opacity: 0;
+            animation: floatHeart 15s infinite ease-in-out;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Particle glow effect */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: shimmer 8s infinite ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                opacity: 0.6;
+                transform: translateY(-40px) translateX(20px);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 30px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeIn 1.8s ease-out 0.3s backwards;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--burgundy);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 20px var(--shadow-warm);
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: 300;
+            color: var(--deep-rose);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .divider {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 30px auto;
+        }
+
+        /* Messages Section */
+        .messages-section {
+            margin-bottom: 100px;
+            animation: fadeIn 2s ease-out 0.6s backwards;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            text-align: center;
+            color: var(--burgundy);
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        .messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .message-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px var(--shadow-warm);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .message-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .message-card:hover::before {
+            opacity: 1;
+        }
+
+        .message-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px var(--shadow-warm);
+            border-color: var(--gold);
+        }
+
+        .message-card.revealed {
+            background: rgba(255, 248, 243, 0.95);
+        }
+
+        .message-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            font-weight: 300;
+            color: var(--blush);
+            line-height: 1;
+            margin-bottom: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .message-card.revealed .message-number {
+            color: var(--gold);
+            transform: scale(0.8);
+        }
+
+        .message-prompt {
+            font-size: 1.1rem;
+            color: var(--deep-rose);
+            font-weight: 400;
+            margin-bottom: 10px;
+            transition: opacity 0.4s ease;
+        }
+
+        .message-card.revealed .message-prompt {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .message-content {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--burgundy);
+            font-style: italic;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .message-card.revealed .message-content {
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        /* Photo Gallery */
+        .gallery-section {
+            margin-bottom: 100px;
+            animation: fadeIn 2.2s ease-out 0.9s backwards;
+        }
+
+        .carousel-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px var(--shadow-warm);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--blush), var(--champagne));
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--burgundy);
+            font-style: italic;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .carousel-btn {
+            background: linear-gradient(135deg, var(--burgundy), var(--deep-rose));
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px var(--shadow-warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px var(--shadow-warm);
+        }
+
+        .carousel-btn:active {
+            transform: scale(0.95);
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--blush);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .dot.active {
+            background: var(--burgundy);
+            transform: scale(1.3);
+            border-color: var(--gold);
+        }
+
+        /* Valentine Question Section */
+        .valentine-question {
+            margin-bottom: 100px;
+            animation: fadeIn 2.4s ease-out 1.2s backwards;
+            perspective: 1000px;
+        }
+
+        .question-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 243, 0.8));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 30px 80px var(--shadow-warm);
+            border: 2px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+            animation: questionGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes questionGlow {
+            0%, 100% {
+                box-shadow: 0 30px 80px var(--shadow-warm), 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+            50% {
+                box-shadow: 0 30px 80px var(--shadow-warm), 0 0 40px 5px rgba(212, 175, 55, 0.3);
+            }
+        }
+
+        .question-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15), transparent 60%);
+            pointer-events: none;
+        }
+
+        .question-ornament {
+            font-size: 2.5rem;
+            color: var(--gold);
+            text-align: center;
+            margin: 10px 0;
+            animation: ornamentFloat 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .question-ornament.top {
+            animation-delay: 0s;
+        }
+
+        .question-ornament.bottom {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes ornamentFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.1);
+            }
+        }
+
+        .question-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            font-style: italic;
+            text-align: center;
+            color: var(--burgundy);
+            margin: 30px 0;
+            letter-spacing: 2px;
+            line-height: 1.3;
+            text-shadow: 2px 2px 30px var(--shadow-warm);
+            animation: textShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes textShimmer {
+            0%, 100% {
+                text-shadow: 2px 2px 30px var(--shadow-warm);
+            }
+            50% {
+                text-shadow: 2px 2px 40px rgba(212, 175, 55, 0.4), 0 0 30px rgba(212, 175, 55, 0.2);
+            }
+        }
+
+        .answer-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .answer-btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-warm);
+        }
+
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .answer-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .answer-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, var(--burgundy), var(--deep-rose));
+            color: white;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(139, 21, 56, 0.4);
+        }
+
+        .yes-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .maybe-btn {
+            background: linear-gradient(135deg, var(--blush), var(--champagne));
+            color: var(--burgundy);
+            flex: 1;
+            min-width: 200px;
+            border: 2px solid var(--gold);
+        }
+
+        .maybe-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+            background: linear-gradient(135deg, var(--champagne), var(--blush));
+        }
+
+        .maybe-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .answer-response {
+            margin-top: 30px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--burgundy);
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 60px;
+        }
+
+        .answer-response.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .answer-response.celebrate {
+            animation: celebrate 0.6s ease-out;
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Confetti for yes answer */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            pointer-events: none;
+            z-index: 9999;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 2.6s ease-out 1.4s backwards;
+        }
+
+        .footer-heart {
+            font-size: 3rem;
+            color: var(--deep-rose);
+            margin-bottom: 20px;
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10% {
+                transform: scale(1.1);
+            }
+            20% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.1);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .footer p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--burgundy);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .messages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message-card {
+                padding: 30px 25px;
+            }
+
+            .carousel-container {
+                padding: 30px 20px;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .question-container {
+                padding: 40px 25px;
+            }
+
+            .question-text {
+                font-size: 2rem;
+            }
+
+            .answer-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .answer-btn {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .answer-response {
+                font-size: 1.5rem;
+            }
+
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .music-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .music-tooltip {
+                bottom: 70px;
+                font-size: 0.8rem;
+                padding: 8px 15px;
+            }
+
+            .music-message {
+                bottom: 20px;
+                right: 90px;
+                font-size: 0.75rem;
+                padding: 10px 15px;
+                white-space: normal;
+                max-width: 150px;
+            }
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            animation: fadeIn 2s ease-out 1.5s backwards;
+        }
+
+        .music-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--burgundy), var(--deep-rose));
+            border: 3px solid var(--gold);
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px var(--shadow-warm);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .music-btn:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 50px rgba(139, 21, 56, 0.4);
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        .music-btn.playing {
+            animation: musicPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% {
+                box-shadow: 0 10px 40px var(--shadow-warm);
+            }
+            50% {
+                box-shadow: 0 10px 40px var(--shadow-warm), 0 0 30px rgba(212, 175, 55, 0.6);
+            }
+        }
+
+        .music-icon {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .music-btn.playing .music-icon {
+            animation: musicNote 0.6s ease-in-out infinite;
+        }
+
+        @keyframes musicNote {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .music-tooltip {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: var(--burgundy);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 5px 20px var(--shadow-warm);
+            border: 1px solid var(--gold);
+        }
+
+        .music-player:hover .music-tooltip {
+            opacity: 1;
+        }
+
+        .music-message {
+            position: absolute;
+            bottom: 25px;
+            right: 85px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            color: var(--burgundy);
+            white-space: nowrap;
+            box-shadow: 0 5px 20px var(--shadow-warm);
+            border: 1px solid var(--gold);
+            animation: fadeInSlide 1s ease-out 2s backwards, gentlePulse 3s ease-in-out 3s infinite;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-5px);
+            }
+        }
+
+        .music-message::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid rgba(255, 255, 255, 0.95);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-hearts" id="backgroundHearts"></div>
+
+    <!-- Music Player -->
+    <div class="music-player">
+        <div class="music-message">Turn on for better experience ♥</div>
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+            <span class="music-icon">♫</span>
+        </button>
+        <div class="music-tooltip" id="musicTooltip">Play Music</div>
+        <audio id="bgMusic" loop>
+            <source src="song.mp3" type="audio/mpeg">
+            <source src="song.ogg" type="audio/ogg">
+        </audio>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>For You, My Love</h1>
+            <div class="divider"></div>
+            <p>A Valentine's Gift From My Heart</p>
+        </header>
+
+        <!-- Messages Section -->
+        <section class="messages-section">
+            <h2 class="section-title">Messages for You</h2>
+            <div class="messages-grid">
+                <div class="message-card" onclick="revealMessage(this)">
+                    <div class="message-number">01</div>
+                    <p class="message-prompt">Click to reveal</p>
+                    <div class="message-content">
+                        Lagi akong nandito, kahit anong mangyari. Hindi kita iiwan. I love you!
+                    </div>
+                </div>
+
+                <div class="message-card" onclick="revealMessage(this)">
+                    <div class="message-number">02</div>
+                    <p class="message-prompt">Click to reveal</p>
+                    <div class="message-content">
+                        I hope we’ll be each other’s Valentine for the rest of our lives, or even on the other side. I love you!
+                    </div>
+                </div>
+
+                <div class="message-card" onclick="revealMessage(this)">
+                    <div class="message-number">03</div>
+                    <p class="message-prompt">Click to reveal</p>
+                    <div class="message-content">
+                        Ikaw yung pinili ko noon, at pipiliin ko pa rin bukas. I love you!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section class="gallery-section">
+            <h2 class="section-title">Our Meowmories/Moments</h2>
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Placeholder slides - Replace with actual photos -->
+                        <div class="carousel-slide">
+                            <img src="photo1.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo2.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo3.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo4.jpg" alt="cuties!">
+                        </div>
+                         <div class="carousel-slide">
+                            <img src="photo5.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo6.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo7.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo8.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo9.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo10.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo11.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo12.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo13.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo14.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo15.jpg" alt="cuties!">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="photo16.jpg" alt="cuties!">
+                        </div> 
+                        <div class="carousel-slide">
+                            <img src="photo17.jpg" alt="cuties!">
+                        </div> 
+                        <div class="carousel-slide">
+                            <img src="photo18.jpg" alt="cuties!">
+                        </div> 
+                        <div class="carousel-slide">
+                            <img src="photo19.jpg" alt="cuties!">
+                        </div> 
+                        <div class="carousel-slide">
+                            <img src="photo20.jpg" alt="cuties!">
+                        </div>                    
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="prevSlide()">‹</button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <button class="carousel-btn" onclick="nextSlide()">›</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Valentine Question Section -->
+        <section class="valentine-question">
+            <div class="question-container">
+                <div class="question-ornament top">❦</div>
+                <h2 class="question-text">Will you be my Valentine?</h2>
+                <div class="question-ornament bottom">❦</div>
+                <div class="answer-buttons">
+                    <button class="answer-btn yes-btn" onclick="answerYes()">Yes, Always ♥</button>
+                    <button class="answer-btn maybe-btn" onclick="answerMaybe()">Let me think...</button>
+                </div>
+                <div class="answer-response" id="answerResponse"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-heart">♥</div>
+            <p>Forever yours, always</p>
+        </footer>
+    </div>
+
+    <script>
+        // Music Player Control
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicTooltip = document.getElementById('musicTooltip');
+        const musicMessage = document.querySelector('.music-message');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+                musicTooltip.textContent = 'Play Music';
+                isPlaying = false;
+            } else {
+                bgMusic.play();
+                musicBtn.classList.add('playing');
+                musicTooltip.textContent = 'Pause Music';
+                isPlaying = true;
+                
+                // Hide the message after music starts
+                if (musicMessage) {
+                    musicMessage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    musicMessage.style.opacity = '0';
+                    musicMessage.style.transform = 'translateX(20px)';
+                    setTimeout(() => {
+                        musicMessage.style.display = 'none';
+                    }, 500);
+                }
+            }
+        }
+
+        // Message Reveal Functionality
+        function revealMessage(card) {
+            card.classList.toggle('revealed');
+        }
+
+        // Carousel Functionality
+        let currentSlide = 0;
+        const track = document.getElementById('carouselTrack');
+        const slides = track.children;
+        const dotsContainer = document.getElementById('carouselDots');
+        const totalSlides = slides.length;
+
+        // Initialize dots
+        function initDots() {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update dots
+            const dots = dotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', i === currentSlide);
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Auto-advance carousel (optional)
+        let autoSlide = setInterval(nextSlide, 5000);
+
+        // Pause auto-advance on hover
+        const carousel = document.querySelector('.carousel-container');
+        carousel.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        carousel.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(nextSlide, 5000);
+        });
+
+        // Animated Background
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '♥';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.getElementById('backgroundHearts').appendChild(heart);
+
+            setTimeout(() => heart.remove(), 15000);
+        }
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            document.getElementById('backgroundHearts').appendChild(particle);
+
+            setTimeout(() => particle.remove(), 8000);
+        }
+
+        // Generate hearts and particles
+        setInterval(createHeart, 800);
+        setInterval(createParticle, 600);
+
+        // Initialize
+        initDots();
+
+        // Valentine Question Interactions
+        function answerYes() {
+            const response = document.getElementById('answerResponse');
+            
+            response.textContent = "You chose the correct answer! ♥";
+            response.classList.add('show', 'celebrate');
+            response.style.color = 'var(--burgundy)';
+            
+            // Create confetti effect
+            createConfetti();
+            
+            setTimeout(() => {
+                response.classList.remove('celebrate');
+            }, 600);
+        }
+
+        function answerMaybe() {
+            const response = document.getElementById('answerResponse');
+            
+            response.textContent = "Error, not the right choice";
+            response.classList.add('show');
+            response.style.color = 'var(--deep-rose)';
+        }
+
+        function createConfetti() {
+            const colors = ['#8B1538', '#C84B63', '#D4AF37', '#ECBCB3'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Keyboard navigation for carousel
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+    </script>
+</body>
+</html>
